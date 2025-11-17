@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CS Student Manager</string>
+
+    <!-- Tab titles -->
+    <string name="tab_byte_coding">바이트코딩</string>
+    <string name="tab_github">GitHub</string>
+    <string name="tab_dictionary">용어사전</string>
+
+    <!-- Byte Coding -->
+    <string name="byte_coding_title">바이트 코딩 학습</string>
+    <string name="decimal_input">10진수 입력</string>
+    <string name="binary_result">2진수 결과</string>
+    <string name="hex_result">16진수 결과</string>
+    <string name="octal_result">8진수 결과</string>
+    <string name="convert">변환</string>
+    <string name="bit_operations">비트 연산</string>
+    <string name="and_operation">AND 연산</string>
+    <string name="or_operation">OR 연산</string>
+    <string name="xor_operation">XOR 연산</string>
+    <string name="not_operation">NOT 연산</string>
+    <string name="left_shift">왼쪽 시프트</string>
+    <string name="right_shift">오른쪽 시프트</string>
+    <string name="enter_number">숫자를 입력하세요</string>
+    <string name="enter_second_number">두 번째 숫자 입력</string>
+
+    <!-- GitHub -->
+    <string name="github_title">GitHub 관리</string>
+    <string name="username_hint">GitHub 사용자명</string>
+    <string name="search_user">사용자 검색</string>
+    <string name="repositories">저장소</string>
+    <string name="followers">팔로워</string>
+    <string name="following">팔로잉</string>
+    <string name="public_repos">공개 저장소</string>
+    <string name="repo_name">저장소 이름</string>
+    <string name="repo_description">설명</string>
+    <string name="stars">Stars</string>
+    <string name="forks">Forks</string>
+    <string name="language">언어</string>
+    <string name="loading">로딩 중...</string>
+    <string name="error_user_not_found">사용자를 찾을 수 없습니다</string>
+    <string name="error_network">네트워크 오류</string>
+
+    <!-- Dictionary -->
+    <string name="dictionary_title">컴공 용어사전</string>
+    <string name="search_term">용어 검색</string>
+    <string name="term">용어</string>
+    <string name="definition">정의</string>
+    <string name="category">카테고리</string>
+    <string name="add_term">용어 추가</string>
+    <string name="edit_term">용어 수정</string>
+    <string name="delete_term">용어 삭제</string>
+    <string name="save">저장</string>
+    <string name="cancel">취소</string>
+
+    <!-- Categories -->
+    <string name="category_algorithm">알고리즘</string>
+    <string name="category_data_structure">자료구조</string>
+    <string name="category_network">네트워크</string>
+    <string name="category_os">운영체제</string>
+    <string name="category_database">데이터베이스</string>
+    <string name="category_programming">프로그래밍</string>
+    <string name="category_web">웹</string>
+    <string name="category_etc">기타</string>
+</resources>
