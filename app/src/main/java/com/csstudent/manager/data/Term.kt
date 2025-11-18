@@ -1,6 +1,11 @@
 package com.csstudent.manager.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "terms")
 data class Term(
+    @PrimaryKey
     val id: String = java.util.UUID.randomUUID().toString(),
     val term: String,
     val definition: String,

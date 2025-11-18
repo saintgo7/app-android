@@ -56,6 +56,14 @@ class ByteCodingFragment : Fragment() {
         binding.btnRightShift.setOnClickListener {
             performBitOperation("RIGHT_SHIFT")
         }
+
+        binding.btnUnsignedRightShift.setOnClickListener {
+            performBitOperation("UNSIGNED_RIGHT_SHIFT")
+        }
+
+        binding.btnCountOnes.setOnClickListener {
+            performBitOperation("COUNT_ONES")
+        }
     }
 
     private fun convertNumber() {
@@ -145,6 +153,25 @@ class ByteCodingFragment : Fragment() {
                     val res = num1 shr num2
                     "$num1 >> $num2 = $res\n" +
                     "${Integer.toBinaryString(num1)} >> $num2 = ${Integer.toBinaryString(res)}"
+                }
+                "UNSIGNED_RIGHT_SHIFT" -> {
+                    if (num2Str.isEmpty()) {
+                        Toast.makeText(context, R.string.enter_second_number, Toast.LENGTH_SHORT).show()
+                        return
+                    }
+                    val num2 = num2Str.toInt()
+                    val res = num1 ushr num2
+                    "$num1 >>> $num2 = $res\n" +
+                    "${Integer.toBinaryString(num1)} >>> $num2 = ${Integer.toBinaryString(res)}\n" +
+                    "(부호 비트를 포함하여 오른쪽으로 시프트)"
+                }
+                "COUNT_ONES" -> {
+                    val ones = Integer.bitCount(num1)
+                    val binary = Integer.toBinaryString(num1)
+                    "Number: $num1\n" +
+                    "Binary: $binary\n" +
+                    "1의 개수: $ones\n" +
+                    "0의 개수: ${32 - binary.length + binary.count { it == '0' }}"
                 }
                 else -> ""
             }

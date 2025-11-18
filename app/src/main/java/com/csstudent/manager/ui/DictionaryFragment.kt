@@ -8,19 +8,23 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.csstudent.manager.R
 import com.csstudent.manager.data.Term
 import com.csstudent.manager.data.TermCategory
 import com.csstudent.manager.data.TermRepository
+import com.csstudent.manager.database.AppDatabase
 import com.csstudent.manager.databinding.DialogAddTermBinding
 import com.csstudent.manager.databinding.FragmentDictionaryBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class DictionaryFragment : Fragment() {
 
     private var _binding: FragmentDictionaryBinding? = null
     private val binding get() = _binding!!
     private lateinit var termAdapter: TermAdapter
+    private lateinit var termRepository: TermRepository
     private var currentCategory = TermCategory.ALL.displayName
 
     override fun onCreateView(
@@ -34,10 +38,14 @@ class DictionaryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val database = AppDatabase.getDatabase(requireContext())
+        termRepository = TermRepository(database.termDao())
+
         setupRecyclerView()
         setupCategorySpinner()
         setupListeners()
-        loadTerms()
+        observeTerms()
     }
 
     private fun setupRecyclerView() {
@@ -65,7 +73,7 @@ class DictionaryFragment : Fragment() {
         binding.spinnerCategory.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: View?, position: Int, id: Long) {
                 currentCategory = categories[position]
-                filterTerms()
+                observeTerms()
             }
 
             override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
@@ -78,28 +86,18 @@ class DictionaryFragment : Fragment() {
         }
 
         binding.inputSearch.addTextChangedListener {
-            filterTerms()
+            observeTerms()
         }
     }
 
-    private fun loadTerms() {
-        val terms = TermRepository.getAllTerms()
-        termAdapter.submitList(terms)
-    }
-
-    private fun filterTerms() {
+    private fun observeTerms() {
         val query = binding.inputSearch.text.toString()
-        val terms = if (query.isEmpty()) {
-            TermRepository.getTermsByCategory(currentCategory)
-        } else {
-            val searchResults = TermRepository.searchTerms(query)
-            if (currentCategory == TermCategory.ALL.displayName) {
-                searchResults
-            } else {
-                searchResults.filter { it.category == currentCategory }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            termRepository.searchTerms(query, currentCategory).collectLatest { terms ->
+                termAdapter.submitList(terms)
             }
         }
-        termAdapter.submitList(terms)
     }
 
     private fun showAddTermDialog() {
@@ -124,15 +122,15 @@ class DictionaryFragment : Fragment() {
                     val selectedCategory = dialogBinding.spinnerCategory.selectedItem.toString()
 
                     if (term.isNotEmpty() && definition.isNotEmpty()) {
-                        TermRepository.addTerm(
-                            Term(
-                                term = term,
-                                definition = definition,
-                                category = selectedCategory
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            termRepository.addTerm(
+                                Term(
+                                    term = term,
+                                    definition = definition,
+                                    category = selectedCategory
+                                )
                             )
-                        )
-                        loadTerms()
-                        filterTerms()
+                        }
                         dismiss()
                     }
                 }
@@ -150,9 +148,9 @@ class DictionaryFragment : Fragment() {
             .setTitle("용어 삭제")
             .setMessage("'${term.term}'을(를) 삭제하시겠습니까?")
             .setPositiveButton("삭제") { _, _ ->
-                TermRepository.deleteTerm(term.id)
-                loadTerms()
-                filterTerms()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    termRepository.deleteTerm(term.id)
+                }
             }
             .setNegativeButton("취소", null)
             .show()

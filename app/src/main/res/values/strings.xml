@@ -62,4 +62,32 @@
     <string name="category_programming">프로그래밍</string>
     <string name="category_web">웹</string>
     <string name="category_etc">기타</string>
+
+    <!-- Settings -->
+    <string name="dark_mode">다크 모드</string>
+    <string name="light_mode">라이트 모드</string>
+    <string name="settings">설정</string>
+    <string name="theme">테마</string>
+
+    <!-- Favorites -->
+    <string name="favorites">즐겨찾기</string>
+    <string name="add_to_favorites">즐겨찾기 추가</string>
+    <string name="remove_from_favorites">즐겨찾기 제거</string>
+    <string name="no_favorites">즐겨찾기가 없습니다</string>
+
+    <!-- More Byte Operations -->
+    <string name="unsigned_right_shift">부호 없는 오른쪽 시프트</string>
+    <string name="rotate_left">왼쪽 회전</string>
+    <string name="rotate_right">오른쪽 회전</string>
+    <string name="count_ones">1의 개수</string>
+    <string name="count_zeros">0의 개수</string>
+
+    <!-- Repository Details -->
+    <string name="repo_details">저장소 상세정보</string>
+    <string name="created_at">생성일</string>
+    <string name="updated_at">수정일</string>
+    <string name="open_in_browser">브라우저에서 열기</string>
+    <string name="clone_url">Clone URL</string>
+    <string name="watchers">Watchers</string>
+    <string name="issues">Issues</string>
 </resources>
